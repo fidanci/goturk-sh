@@ -65,7 +65,7 @@ class ProductsNotifier extends ChangeNotifier {
 
   String get catId => _catId;
 
-  set catId(String value) {
+  set kcatId(String value) {
     _catId = value;
   }
 
@@ -100,29 +100,26 @@ class ProductsNotifier extends ChangeNotifier {
 
   int get selectedIndex => _selectedIndex;
 
-  set selectedIndex(int value) {
+  set kselectedIndex(int value) {
     _selectedIndex = value;
   }
 
   int get selectedImage => _selectedImage;
 
-  set selectedImage(int value) {
+  set kselectedImage(int value) {
     _selectedImage = value;
   }
 
   int get quantity => _quantity;
 
-  set quantity(int value) {
+  set kquantity(int value) {
     _quantity = value;
   }
 }
 
 /// Cart Screen Data =======================================================
 
-// final cartProvider = FutureProvider.autoDispose<Cart>((ref) async {
-//   ref.maintainState = true;
-//
-// });
+
 
 final cartChangeNotifierProvider = ChangeNotifierProvider<CartNotifier>((ref) {
   return CartNotifier();
@@ -138,7 +135,7 @@ class CartNotifier extends ChangeNotifier {
 
   get total => _total;
 
-  set total(value) {
+  set ktotal(value) {
     _total = value;
   }
 
@@ -188,33 +185,6 @@ class CartNotifier extends ChangeNotifier {
     }
   }
 
-  // void addToCartOld(WooProduct wooProduct, int quantity) async {
-  //   print("CartNotifier addToCart ");
-  //   final checkItem = _cartList.firstWhere((element) => element.id == wooProduct.id, orElse: () => null);
-  //
-  //   if (checkItem != null) {
-  //     _quantity++;
-  //     notifyListeners();
-  //     print(" ITEM Already IN  :${wooProduct.name}");
-  //     isExist = true;
-  //   } else {
-  //     _cartList.add(wooProduct);
-  //     notifyListeners();
-  //     _quantity = 1;
-  //     isExist = false;
-  //   }
-  //   print("CART ITEMS :${_cartList.length}");
-  //
-  //   // final body = {"a": "a", "a": "a"};
-  //   // final url = "add-item";
-  //   // var cart = await WooCommerceApi().AddToCart(id.toString(), quantity);
-  //   // print(cart);
-  //   // if (cart != null) {
-  //   //   notifyListeners();
-  //   //   return true;
-  //   // }
-  //   // return false;
-  // }
 
   void clearCart() async {
     print("CartNotifier clearCart ");
@@ -235,51 +205,6 @@ class CartNotifier extends ChangeNotifier {
   }
 }
 
-//   Future<bool> clearCart({String cartId}) async {
-//     print("CartNotifier clearCart ");
-//     // final body = {"a": "a", "a": "a"};
-//     // final url = "add-item";
-//     var cart = await WooCommerceApi.cartApi.deleteRequest("clear");
-//     print(cart);
-//
-//     if (cart != null) {
-//       notifyListeners();
-//       return true;
-//     }
-//     return false;
-//   }
-//
-//   // Future<Cart> getCart() async {
-//   //   print("Added");
-//   //
-//   //   var cart = await WooCommerceApi().getCart();
-//   //   notifyListeners();
-//   //   return cart;
-//   // }
-//
-// // void addToCart2(WooProduct product) async {
-// //   print("Added");
-// //
-// //   _cartList.add(product);
-// //   notifyListeners();
-// // }
-// //
-// // void removeFromCart(WooProduct product) {
-// //   print("Removed");
-// //
-// //   _cartList.remove(product);
-// //   notifyListeners();
-// // }
-// //
-// // void removeFromCart2(WooProduct product) async {
-// //   print("Removed");
-// //   _cartList.remove(product);
-// //   notifyListeners();
-// // }
-// // double calculateTotal (){
-// //
-// // };
-// }
 
 /// Profile Screen Data =======================================================
 
@@ -288,11 +213,7 @@ final usersProvider = FutureProvider.autoDispose<WooCustomer>((ref) async {
   final customer = await WooCommerceApi().getCustumerInfo();
   return customer;
 });
-// final loadingProvider = Provider((ref) async {
-//   ref.maintainState = true;
-//
-//   return spinkit;
-// });
+
 
 final ordersProvider = FutureProvider.autoDispose<List<WooOrder>>((ref) async {
   ref.maintainState = true;

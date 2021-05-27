@@ -1,32 +1,38 @@
+import 'dart:convert';
 import 'dart:developer';
-
-import 'package:goturkishfoodapp/constant.dart';
+import 'package:http/http.dart' as http;
+import 'package:woocommerce/constants/constants.dart';
+import 'package:woocommerce/utilities/local_db.dart';
 import 'package:woocommerce/woocommerce.dart';
 
-class WooCommerceApi{
-   static WooCommerce prodMode = WooCommerce(
+import '../../constant.dart';
+import 'sharedPref.dart';
+
+class WooCommerceApi {
+  static WooCommerce prodMode = WooCommerce(
     baseUrl: "$baseUrl",
     consumerKey: "$consumerKey",
     consumerSecret: "$consumerSecret",
     isDebug: false,
   );
+   Map<String, String> _urlHeader = {
+    'Authorization': ''
+  };
 // Kategorileri Almak için kullanıldı
   /// Search Screen  ================================================================================
   Future<List<WooProduct>> getProductBySearch(String query) async {
-    final myProducts =
-        await prodMode.getProducts(status: "publish", perPage: 50, page: 1, search: "$query");
+    final myProducts = await prodMode.getProducts(
+        status: "publish", perPage: 50, page: 1, search: "$query");
     print("WooCommerceApi === getProducts1 : ${myProducts.length}");
     return myProducts;
   }
- Future<WooProductTag> getProductBy(int tag) async {
-    final myProducts =
-        await prodMode.getProductTagById(id: tag
-        );
-        var name = myProducts.name;
+
+  Future<WooProductTag> getProductBy(int tag) async {
+    final myProducts = await prodMode.getProductTagById(id: tag);
+    var name = myProducts.name;
     print(name);
     return myProducts;
   }
-  
 
   /// Home Screen  ================================================================================
   Future<List<WooProduct>> getAllProducts(String catId) async {
@@ -41,9 +47,10 @@ class WooCommerceApi{
   }
 
   Future<List<WooProductCategory>> getAllCategories() async {
-    final myProducts = await prodMode.getProductCategories(perPage: 50, hideEmpty: true);
+    final myProducts =
+        await prodMode.getProductCategories(perPage: 50, hideEmpty: true);
     print("WooCommerceApi === getAllCategories : ${myProducts.length}");
-    print(myProducts);
+
     return myProducts;
   }
 
@@ -53,42 +60,79 @@ class WooCommerceApi{
     return user;
   }
 
-  Future<bool> loginJwt(String username,String pass)async{
-    final sonuc = await prodMode.authenticateViaJWT(username: username,password: pass);
-    return sonuc;
-  }
-
   /// login screen  ================================================================================
-  Future<dynamic> loginUser(String username1, String password1) async {
-    var user = await prodMode.loginCustomer(username: username1, password: password1);
+  Future<void> loginUser({String username, String password}) async {
+    try {
+       var user =
+        await prodMode.loginCustomer(username: username, password: password);
+        
     return user;
+    } catch (e) {
+      print(e.toString());
+    }
+   
+   
   }
 
+  Future<String> loginUserCustom({String username, String password}) async {
+    final body = {
+      'username': username,
+      'password': password,
+    };
+    final response = await http.post(
+      baseUrl + URL_JWT_TOKEN,
+      body: body,
+    );
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      var toke = json.decode(response.body);
+      var token = toke['data']['token'];
+      var id = toke['data']['id'];
+      SharedPref().saveToken(token);
+      SharedPref().saveID(id);
+      print(token);
+   
+      print(id);
+      if(token is String){
+        return token;
+      
+      }
+      return token;
+    }else {
+      return "0";
+    }
+  }
+// Kayıtlı token kontrolü yapmak için kullanıldı
   Future<bool> checkLogged() async {
     log("checkLogged Called:");
-    final logged = await prodMode.isCustomerLoggedIn();
-    if (logged == true) {
-      log("logged  Value : $logged !!");
+  //  final logged = await prodMode.isCustomerLoggedIn();
+    final isLoged = await SharedPref().isLoged();
+    if (isLoged == true) {
+      log("logged  Value : $isLoged !!");
 
       return true;
     } else {
       log("User Not logged in !!");
       return false;
     }
+    
   }
 
   /// Profile Screen  ================================================================================
   Future<WooCustomer> getCustumerInfo() async {
-    print("getCustumerInfo :");
-
+    var authToken = await LocalDatabaseService().getSecurityToken();
+    var header = _urlHeader['Authorization'] = 'Bearer '+authToken;
+    final response =
+    await http.get(baseUrl + URL_USER_ME, headers: _urlHeader);
+    print(response.body);
     final userId = await prodMode.fetchLoggedInUserId();
     final myProducts = await prodMode.getCustomerById(id: userId);
     return myProducts;
   }
 
-  Future<List<WooOrder>> getUserOrders() async {
-    print("getUserOrders :");
 
+
+
+  Future<List<WooOrder>> getUserOrders() async {
     final customerId = await getCustumerInfo();
     print("customerId in getUserOrders: ${customerId.id} ");
 

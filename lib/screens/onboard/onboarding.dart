@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:goturkishfoodapp/screens/auth/login/authPage.dart';
-import 'package:goturkishfoodapp/screens/routing_screen.dart';
+import '../auth/login/authPage.dart';
 
 class OnBoardingPage extends StatefulWidget {
   @override
@@ -8,9 +7,9 @@ class OnBoardingPage extends StatefulWidget {
 }
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
+
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -33,17 +32,19 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                   )
                 ],
               )),
-         
-      
           Expanded(
               flex: 1,
               child: Container(
                 padding: EdgeInsets.all(20),
                 width: 300,
-                child:
-                    ElevatedButton(onPressed: () {
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> AuthPage()), (route) => false);
-                    }, child: Text("Continue")),
+                child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => AuthPage()),
+                          (route) => false);
+                    },
+                    child: Text("Continue")),
               ))
         ],
       ),

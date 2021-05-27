@@ -1,14 +1,14 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:goturkishfoodapp/helper.dart';
-import 'package:goturkishfoodapp/screens/cart/cart.dart';
-import 'package:goturkishfoodapp/screens/category/category.dart';
-import 'package:goturkishfoodapp/screens/home/home_page.dart';
-import 'package:goturkishfoodapp/screens/other/other.dart';
 
-import 'package:goturkishfoodapp/screens/search/search.dart';
-import 'package:goturkishfoodapp/service/provider/provider.dart';
+import '../helper.dart';
+import '../service/provider/provider.dart';
+import 'cart/cart.dart';
+import 'category/category.dart';
+import 'home/home_page.dart';
+import 'other/other.dart';
+import 'search/search.dart';
 
 class RoutingScreen extends StatefulWidget {
   static final id = "RoutingScreen";
@@ -47,6 +47,7 @@ class _RoutingScreenState extends State<RoutingScreen> {
   void initState() {
     super.initState();
     pageController = PageController();
+  
 
   }
 

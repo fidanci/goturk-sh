@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:goturkishfoodapp/screens/auth/login/login2.dart';
-import 'package:goturkishfoodapp/screens/auth/signup/signup2.dart';
-import 'package:goturkishfoodapp/screens/routing_screen.dart';
-import 'package:goturkishfoodapp/service/data/woocommerce.dart';
-import 'package:goturkishfoodapp/service/provider/provider.dart';
 
-import '../signup/signup.dart';
-import 'login.dart';
+import '../../../service/data/woocommerce.dart';
+import '../../routing_screen.dart';
+import '../signup/signup2.dart';
+import 'login2.dart';
 
 class AuthPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, watch) {
-  var service = WooCommerceApi().checkLogged();
-  if(service == true){
+  var service = WooCommerceApi().checkLogged( );
+  if(service is bool){
     return RoutingScreen();
   }else{
     return buildScaffold(context);

@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,23 +12,15 @@ import '../../../helper.dart';
 class ProductGrid extends ConsumerWidget {
   final String catId;
   ProductGrid({
-     this.catId,
+    this.catId,
   });
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    /// listen to catId change in productsChangeNotifierProvider and pass it to [ productsProviderData ]
-    var catID = watch(productsChangeNotifierProvider).catId;
-
-    /// listen to if favorite Or not change in favoriteChangeNotifierProvider
-
-    /// listen to productsList  in productsProvider
     final productsProviderData = watch(getAllProductProvider(catId));
     final cart = watch(cartChangeNotifierProvider);
 
     var body = productsProviderData.map(data: (asyncData) {
       var products = asyncData.value;
-
-     
       var crossAxisCount = 2;
       var childAspectRatio = 0.8;
 
@@ -44,7 +35,7 @@ class ProductGrid extends ConsumerWidget {
                   crossAxisCount: crossAxisCount,
                   childAspectRatio: childAspectRatio,
                 ),
-                // cacheExtent: 500.0,
+           
                 itemCount: products.length,
                 itemBuilder: (context, i) {
                   var product = products[i];
@@ -67,7 +58,6 @@ class ProductGrid extends ConsumerWidget {
                     productName,
                     productprice,
                     products,
-                    i,
                     cart,
                   );
                 })),
@@ -82,18 +72,21 @@ class ProductGrid extends ConsumerWidget {
   }
 
   Widget buildInkWell(
-    BuildContext context,
-    WooProduct product,
-    String productImage,
-    String productName,
-    String productprice,
-    List<WooProduct> products,
-    int i,
-    CartNotifier cart
-  ) {
+      BuildContext context,
+      WooProduct product,
+      String productImage,
+      String productName,
+      String productprice,
+      List<WooProduct> products,
+      CartNotifier cart) {
     return InkWell(
         onTap: () {
-           Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetail(product: product,)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ProductDetail(
+                        product: product,
+                      )));
         },
         child: MyProduct(
           name: productName,
@@ -102,7 +95,7 @@ class ProductGrid extends ConsumerWidget {
           onpressed: IconButton(
             icon: Icon(Icons.add_shopping_cart_outlined),
             onPressed: () {
-              cart.addToCart(wooProduct: product,pQuantity: 1);
+              cart.addToCart(wooProduct: product, pQuantity: 1);
             },
             color: MyColor.nuggetOrange,
             iconSize: SizeHelper.height(context) / 25,

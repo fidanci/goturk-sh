@@ -4,8 +4,7 @@ import 'package:goturkishfoodapp/screens/product/store.dart';
 
 import '../../../helper.dart';
 import '../../../service/provider/provider.dart';
-import '../../product/widgets/productGrid.dart';
-
+import 'package:woocommerce/models/product_category.dart';
 class CategoriesItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -19,50 +18,7 @@ class CategoriesItem extends StatelessWidget {
 
           var body = categories.map(data: (asyncData) {
             var listOfcats = asyncData.value;
-            var content = Container(
-              child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 0.0),
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemCount: listOfcats.length,
-                itemBuilder: (BuildContext context, int index) {
-                  var catName = listOfcats[index].name;
-                  var catImage = listOfcats[index].image;
-
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => StoreScreen(
-                                    catId: listOfcats[index].id.toString(),
-                                  )));
-                    },
-                    child: Container(
-                      width: widtth * 0.2,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: widtth *0.2,
-                          height: 70,
-                          // color: Colors.redAccent,
-                          child: CircleAvatar(
-                            backgroundImage: NetworkImage("https://ozerciftlik.com/wp-content/uploads/2020/03/1009-800x800-1.jpg"),
-                            backgroundColor: Colors.white,
-                            child: catImage == null
-                                ? Image.network(
-                                    "https://img1.pngindir.com/20180529/qwv/kisspng-bryndza-goat-cheese-queso-blanco-feta-beyaz-peynir-5b0cf05d8fb6e0.1246446815275746215887.jpg")
-                                : Image.network(catImage.src),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-
-                // },
-              ),
-            );
+            var content = buildContainer(listOfcats, widtth);
 
             return content;
           }, loading: (asyncData) {
@@ -74,5 +30,43 @@ class CategoriesItem extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Container buildContainer(List<WooProductCategory> listOfcats, widtth) {
+    return Container(
+            child: ListView.builder(
+              padding: EdgeInsets.symmetric(horizontal: 0.0),
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              itemCount: listOfcats.length,
+              itemBuilder: (BuildContext context, int index) {
+                var catImage = listOfcats[index].image;
+
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => StoreScreen(
+                                  catId: listOfcats[index].id.toString(),
+                                )));
+                  },
+                  child: Container(
+                    width: widtth * 0.2,
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage("https://ozerciftlik.com/wp-content/uploads/2020/03/1009-800x800-1.jpg"),
+                      backgroundColor: Colors.white,
+                      child: catImage == null
+                          ? Image.network(
+                              "https://img1.pngindir.com/20180529/qwv/kisspng-bryndza-goat-cheese-queso-blanco-feta-beyaz-peynir-5b0cf05d8fb6e0.1246446815275746215887.jpg")
+                          : Image.network(catImage.src),
+                    ),
+                  ),
+                );
+              },
+
+              // },
+            ),
+          );
   }
 }

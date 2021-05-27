@@ -17,21 +17,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   var homecatList = CategoryList.homecatList;
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: SingleChildScrollView(
-        child: Consumer(builder: (context, watch, child) { 
-        
+        child: Consumer(builder: (context, watch, child) {
+          //110 nolu kategoriden gelen ürünler 
           final homeProvider = watch(getAllProductProvider("110"));
           final carProvider = watch(cartChangeNotifierProvider);
           return homeProvider.map(
             data: (value) {
               var list = value.data.value;
-              return buildColumn(context, list,carProvider);
+              return buildColumn(context, list, carProvider);
             },
             loading: (_) {
               return Center(child: spinkit);
@@ -45,7 +45,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Column buildColumn(BuildContext context, List<WooProduct> model, CartNotifier prvider) {
+  Column buildColumn(
+      BuildContext context, List<WooProduct> model, CartNotifier prvider) {
     return Column(
       children: [
         SliderSection(),
@@ -75,9 +76,13 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-Widget buildProductList(BuildContext context, List<WooProduct> data, CartNotifier cart) {
+// Provider ile ürün listesi çekildi.
+// CartNotifier Alışveriş sepetini tutuyor. Ürün sepete ekleme işlemi yapıldı.
+
+Widget buildProductList(
+    BuildContext context, List<WooProduct> data, CartNotifier cart) {
   return Container(
-     height: SizeHelper.height(context) / 2,
+      height: SizeHelper.height(context) / 2,
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, crossAxisSpacing: 5, childAspectRatio: 1),
@@ -87,15 +92,19 @@ Widget buildProductList(BuildContext context, List<WooProduct> data, CartNotifie
           var url = model.images[0].src;
 
           return InkWell(
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetail(product: model,)));
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ProductDetail(
+                            product: model,
+                          )));
             },
-                      child: MyProduct(
+            child: MyProduct(
                 onpressed: IconButton(
                   icon: Icon(Icons.set_meal),
                   onPressed: () {
-                   cart.addToCart(wooProduct: model,pQuantity: 1);
-                    
+                    cart.addToCart(wooProduct: model, pQuantity: 1);
                   },
                   color: MyColor.nuggetOrange,
                   iconSize: SizeHelper.height(context) / 30,

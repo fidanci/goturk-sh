@@ -304,8 +304,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 },
                               ),
                               SizedBox(height: 30),
-                              FlatButton(
-                                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 80),
+                              TextButton(
                                 onPressed: () async {
                                   var isOk = await validateAndSave();
 
@@ -319,7 +318,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         ),
                                       );
                                     } else if (customer is WooCustomer) {
-                                      print("HAKONA MATATA");
+                                      print("customer");
                                     }
                                     print(customer);
                                   } else {
@@ -330,8 +329,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   "Register",
                                
                                 ),
-                                color: Colors.orange,
-                                shape: StadiumBorder(),
+                              
                               ),
                               SizedBox(height: 15),
                             ],

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:goturkishfoodapp/helper.dart';
-import 'package:goturkishfoodapp/models/denemecustomer.dart';
-import 'package:goturkishfoodapp/service/provider/provider.dart';
 import 'package:woocommerce/models/customer.dart';
+
+import '../../../helper.dart';
+import '../../../service/provider/provider.dart';
 
 class ProfilePage extends ConsumerWidget {
   @override
@@ -17,7 +17,8 @@ class ProfilePage extends ConsumerWidget {
         return Center(child: spinkit,);
       },
       error: (e){
-        return Text(e.toString());
+        print(e.toString());
+        return Scaffold(body: Text(e.toString()));
       },
     );
     

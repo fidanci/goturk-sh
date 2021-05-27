@@ -49,7 +49,7 @@ class _StoreScreenState extends State<StoreScreen> with SingleTickerProviderStat
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-     
+        // Appbarda bulunan icon ile etkileşime geçince liste veya grid oluyor.
         actions: [
            GestureDetector(
                   onTap: () {

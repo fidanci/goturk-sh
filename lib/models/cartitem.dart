@@ -9,7 +9,7 @@ class CartItem {
 
   int get quantity => _quantity;
 
-  set quantity(int value) {
+  set kquantity(int value) {
     _quantity = value;
   }
 }

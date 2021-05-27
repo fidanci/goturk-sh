@@ -26,40 +26,7 @@ class _SearchPageState extends State<SearchPage> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              maxLines: 1,
-              validator: (String value) {
-                if (value.length > 0) {
-                  text = value;
-                  return "null";
-                }
-              },
-              onChanged: (String value) {
-                text = value;
-              },
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                hintText: "Search",
-                suffixIcon: IconButton(
-                splashColor: Colors.orange,
-                iconSize: 40,
-                color: Colors.orange,
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  key.currentState.save();
-                  setState(() {
-                    context.refresh(getProductsQuery(text));
-                    key.currentState.reset();
-                    
-                  });
-                  
-                },
-              ),
-                
-              ),
-              
-            ),
+            child: buildTextFormField(context),
           ),
 
          
@@ -67,6 +34,43 @@ class _SearchPageState extends State<SearchPage> {
         ],
       ),
     ));
+  }
+
+  TextFormField buildTextFormField(BuildContext context) {
+    return TextFormField(
+            maxLines: 1,
+            validator: (String value) {
+              if (value.length > 0) {
+                text = value;
+                return "null";
+              }else return "Check name";
+            },
+            onChanged: (String value) {
+              text = value;
+            },
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              hintText: "Search",
+              suffixIcon: IconButton(
+              splashColor: Colors.orange,
+              iconSize: 40,
+              color: Colors.orange,
+              icon: Icon(Icons.search),
+              onPressed: () {
+                key.currentState.save();
+                setState(() {
+                  context.refresh(getProductsQuery(text));
+                  key.currentState.reset();
+                  
+                });
+                
+              },
+            ),
+              
+            ),
+            
+          );
   }
 
   Container buildSearch() {
